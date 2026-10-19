@@ -17,8 +17,8 @@ const plain = s => String(s ?? "").replace(/\*\*/g, "");
 const ic = n => `<i data-lucide="${n}"></i>`;
 const shuffle = a => { a = [...a]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
 const T = DATA.lang === "id"
-  ? { start: "Mulai", units: "unit", min: "menit", check: "Cek", cont: "Lanjut", hint: "Petunjuk", newc: "Konsep baru", prev: "Kesalahan sebelumnya", inRow: n => `${n} BERUNTUN`, inst: { mcq: "Pilih jawaban yang benar", gap: "Isi bagian kosong", tf: "Benar atau salah?", match: "Pasangkan yang cocok", order: "Urutkan langkahnya" }, tru: "Benar", fals: "Salah", praise: ["Mantap!", "Keren!", "Tepat sekali!", "Hebat!"], sol: "Jawaban yang benar:", retry: "Soal ini diulang di akhir.", recap: "Rekap singkat", done: "Pelajaran selesai!", score: "Skor", acc: "Akurasi", best: "Beruntun", copy: "Salin hasil", copied: "Tersalin!", again: "Ulangi yang salah", restart: "Ulangi semua", paste: "Tempel hasil ini ke chat, lalu ketik next", other: "Gambar lain", oneOut: "Satu pilihan salah sudah disingkirkan.", keys: "1–9 memilih · H petunjuk · Enter cek/lanjut" }
-  : { start: "Start", units: "units", min: "min", check: "Check", cont: "Continue", hint: "Hint", newc: "New concept", prev: "Previous mistake", inRow: n => `${n} IN A ROW`, inst: { mcq: "Select the correct answer", gap: "Fill in the blank", tf: "True or false?", match: "Tap the matching pairs", order: "Put the steps in order" }, tru: "True", fals: "False", praise: ["Awesome!", "Nice!", "Great job!", "Excellent!"], sol: "Correct solution:", retry: "This one comes back at the end.", recap: "Quick recap", done: "Lesson complete!", score: "Score", acc: "Accuracy", best: "Best streak", copy: "Copy result", copied: "Copied!", again: "Retry missed", restart: "Start over", paste: "Paste this result into the chat, then type next", other: "Other image", oneOut: "One wrong option has been removed.", keys: "1–9 to pick · H for hint · Enter to check/continue" };
+  ? { start: "Mulai", units: "unit", min: "menit", check: "Cek", cont: "Lanjut", hint: "Petunjuk", newc: "Konsep baru", prev: "Kesalahan sebelumnya", inRow: n => `${n} BERUNTUN`, inst: { mcq: "Pilih jawaban yang benar", gap: "Isi bagian kosong", tf: "Benar atau salah?", match: "Pasangkan yang cocok", order: "Urutkan langkahnya" }, tru: "Benar", fals: "Salah", praise: ["Mantap!", "Keren!", "Tepat sekali!", "Hebat!"], sol: "Jawaban yang benar:", retry: "Soal ini diulang di akhir.", recap: "Rekap singkat", done: "Pelajaran selesai!", score: "Skor", acc: "Akurasi", best: "Beruntun", copy: "Salin hasil", copied: "Tersalin!", again: "Ulangi yang salah", restart: "Ulangi semua", paste: "Tempel hasil ini ke chat, lalu ketik next", other: "Gambar lain", oneOut: "Satu pilihan salah sudah disingkirkan.", almost: n => `Hampir sempurna! ${n} kali salah`, mism: n => `${n} kali salah pasang`, keys: "1–9 memilih · H petunjuk · Enter cek/lanjut" }
+  : { start: "Start", units: "units", min: "min", check: "Check", cont: "Continue", hint: "Hint", newc: "New concept", prev: "Previous mistake", inRow: n => `${n} IN A ROW`, inst: { mcq: "Select the correct answer", gap: "Fill in the blank", tf: "True or false?", match: "Tap the matching pairs", order: "Put the steps in order" }, tru: "True", fals: "False", praise: ["Awesome!", "Nice!", "Great job!", "Excellent!"], sol: "Correct solution:", retry: "This one comes back at the end.", recap: "Quick recap", done: "Lesson complete!", score: "Score", acc: "Accuracy", best: "Best streak", copy: "Copy result", copied: "Copied!", again: "Retry missed", restart: "Start over", paste: "Paste this result into the chat, then type next", other: "Other image", oneOut: "One wrong option has been removed.", almost: n => `Almost! ${n} slip`, mism: n => `${n} mismatches`, keys: "1–9 to pick · H for hint · Enter to check/continue" };
 const U = DATA.units;
 let R = U.map((_, i) => i), queue = [...R], pos = -1, streak = 0, best = 0, score = 0, mode = "intro", hinted = false, sel = null, view = {};
 const seen = new Set(), missed = new Set(), retried = new Set(), pics = {}, picP = {};
@@ -141,7 +141,7 @@ function pickMatch(side, k) {
     [A, B].forEach(x => { x.classList.remove("sel"); x.classList.add("bad"); setTimeout(() => x.classList.remove("bad"), 450); });
   }
   view.a = view.b = null;
-  if (view.done.size === U[queue[pos]].q.pairs.length) setTimeout(() => grade(view.mist === 0), 450);
+  if (view.done.size === U[queue[pos]].q.pairs.length) setTimeout(() => grade(view.mist <= 1, view.mist), 450);
 }
 function hint() {
   if (mode !== "unit" || hinted) return;
@@ -169,19 +169,20 @@ function solution(q) {
   if (t === "order") return q.steps.map(esc).join(" → ");
   if (t === "match") return q.pairs.map(p => `${esc(p[0])} = ${esc(p[1])}`).join(" · ");
 }
-function grade(ok) {
+function grade(ok, slips = 0) {
   mode = "checked";
   const idx = queue[pos], u = U[idx], q = u.q, t = qtype(q);
   if (!seen.has(idx)) { seen.add(idx); sinceRecap.push(idx); if (ok) score++; }
   let note = "";
-  if (ok) { if (!hinted) { streak++; best = Math.max(best, streak); } }
+  if (ok) { if (!hinted && !slips) { streak++; best = Math.max(best, streak); } }
   else { streak = 0; missed.add(idx); if (!retried.has(idx)) { retried.add(idx); queue.push(idx); note = `<small>${ic("rotate-ccw")} ${T.retry}</small>`; } }
   $$(".ask button").forEach(b => b.disabled = true);
   if (t === "mcq" || t === "tf") { const right = t === "tf" ? (q.answer ? 0 : 1) : q.answer; $$(".choice").forEach((b, j) => { b.classList.remove("sel", "dim"); b.classList.add(j === right ? "ok" : j === sel ? "bad" : "dim"); }); }
   if (t === "gap") { const g = $("#gap"); g.className = "gap filled " + (ok ? "ok" : "bad"); }
   if (t === "order") $$("#line .tile").forEach((b, n) => b.classList.add(view.bank[sel[n]] === n ? "ok" : "bad"));
-  const title = ok ? T.praise[Math.floor(Math.random() * T.praise.length)] : T.sol;
-  foot(`<div class="fb"><span class="ficon">${ic(ok ? "check" : "x")}</span><div><b>${title}</b>${ok ? "" : `<p class="sol">${solution(q)}</p>`}<p>${md(q.why)}</p>${note}</div></div><button class="btn ${ok ? "" : "red"}" id="go" onclick="advance()">${T.cont}</button>`, ok ? "ok" : "bad");
+  const isMatch = t === "match";
+  const title = ok ? (slips ? T.almost(slips) : T.praise[Math.floor(Math.random() * T.praise.length)]) : (isMatch ? T.mism(slips) : T.sol);
+  foot(`<div class="fb"><span class="ficon">${ic(ok ? "check" : "x")}</span><div><b>${title}</b>${ok || isMatch ? "" : `<p class="sol">${solution(q)}</p>`}<p>${md(q.why)}</p>${note}</div></div><button class="btn ${ok ? "" : "red"}" id="go" onclick="advance()">${T.cont}</button>`, ok ? "ok" : "bad");
 }
 function advance() {
   if (mode === "checked" && sinceRecap.length >= 5 && pos < queue.length - 1) { const list = sinceRecap; sinceRecap = []; return recap(list); }
