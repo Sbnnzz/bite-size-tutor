@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sheet · Bite-Size Kit</title>
+</head>
+<body>
+<script>
+const DATA = {
+  mode: "sheet",
+  lang: "en",
+  chapter: "Hemolytic anemia · cheat sheet",
+  subtitle: "Everything from Ch1 on one page. **Bold** = high yield.",
+  sections: [
+    { title: "Where RBCs are destroyed", slide: "slide 3", table: { cols: ["Type", "Site", "Key finding"], rows: [["Extravascular", "Spleen, liver", "**Indirect bilirubin** up"], ["Intravascular", "Inside vessels", "**Haptoglobin** down"]] } },
+    { title: "Lab signs of hemolysis", slide: "slide 5", points: ["**Indirect bilirubin** up", "**LDH** up", "**Haptoglobin** down", "**Reticulocytes** up (marrow responds)"] },
+    { title: "Membrane architecture", slide: "slide 7", img: "spherocytes blood smear", points: ["**Ankyrin** complex = vertical link → spherocytosis", "**Junctional** complex = horizontal link → elliptocytosis"] },
+    { title: "G6PD deficiency", slide: "slide 14", flow: ["G6PD low", "NADPH low", "Glutathione low", "**Oxidative** hemolysis"], text: "Triggers: infection, primaquine, **fava beans**." },
+    { title: "Confirm spherocytosis", slide: "slide 12", text: "**Osmotic fragility** test: spherocytes burst early in hypotonic saline." }
+  ]
+};
+</script>
+<script src="../bite.js"></script>
+</body>
+</html>

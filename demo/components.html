@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Components · Bite-Size Kit</title>
+<link rel="stylesheet" href="../kit/kit.css">
+</head>
+<body>
+<script src="../kit/kit.js"></script>
+<script>
+/* Every building block in kit.css / kit.js, rendered live. Use this page as a reference when building a new mode. */
+Kit.shell(); Kit.theme.init();
+Kit.progress(0.6, { streak: 4 }); Kit.status(`${Kit.ic("flame")} 4`, true);
+const sec = (title, html) => `<section><h3>${title}</h3>${html}</section>`;
+Kit.view(`<div class="center" style="gap:8px"><h1 class="big" style="color:var(--strong)">Bite-Size Kit · components</h1><p class="keys">Kit.btn · Kit.tag · Kit.material · Kit.pic · Kit.ex · Kit.rows · Kit.stat · Kit.feedback · chat bubbles · flip card</p></div>
+<div class="gallery" style="margin-top:24px">
+${sec("Buttons · Kit.btn", `<div class="toolbar">${Kit.btn("Check")}${Kit.btn("Wrong", { tone: "red" })}${Kit.btn("Hint", { tone: "white", icon: "lightbulb" })}${Kit.btn("Disabled", { disabled: true })}${Kit.btn("Small", { tone: "white sm", icon: "arrow-left" })}${Kit.btn("Ghost", { tone: "ghost sm" })}</div>`)}
+${sec("Labels · Kit.tag + chips", `${Kit.tag("new")}${Kit.tag("prev")}<div class="toolbar"><span class="chip">${Kit.ic("timer")} 60s</span><span class="chip">${Kit.ic("layers")} 12 units</span></div>`)}
+${sec("Material card · Kit.material", `<div class="bubble"><span class="tag">${Kit.ic("file-text")} slide 5</span><h2>Lab signs</h2>${Kit.material({ points: ["**LDH** up", "**Haptoglobin** down"], flow: ["RBC bursts", "Hb free", "**Haptoglobin** binds"] })}</div>`)}
+${sec("Table · Kit.material({table})", Kit.material({ table: { cols: ["Type", "MCV"], rows: [["Microcytic", "< 80 fL"], ["Macrocytic", "**> 100 fL**"]] } }))}
+${sec("Real image · Kit.pic", Kit.pic("spherocytes blood smear"))}
+${sec("Exercise · Kit.ex.render (mcq)", Kit.ex.render({ prompt: "Fragmented RBCs are called…", options: ["Spherocytes", "Schistocytes", "Target cells"], answer: 1, hint: "Think: broken pieces." }, { instant: true }))}
+${sec("Choice states", `<div class="choices"><button class="choice sel"><kbd>1</kbd>Selected</button><button class="choice ok"><kbd>2</kbd>Correct</button><button class="choice bad"><kbd>3</kbd>Wrong</button><button class="choice dim"><kbd>4</kbd>Dimmed</button></div>`)}
+${sec("Tiles + gap", `<p class="sentence">Spherocytes lack central <span class="gap filled">pallor</span>.</p><div class="tiles"><button class="tile ghost">pallor</button><button class="tile">color</button><button class="tile sel">nucleus</button><button class="tile ok">membrane</button></div>`)}
+${sec("Hint bar", `<div class="hintbar">${Kit.ic("lightbulb")}<span>A nudge that does not give the answer away.</span></div>`)}
+${sec("Chat bubbles", `<div class="thread"><div class="beat-div">2/8 · N in TNM</div><div class="msg bot">Lymph vessels are <mark>leaky</mark>.</div><div class="msg bot extra"><span class="k">Why</span>Loose junctions.</div><div class="msg me">so nodes first?</div><div class="msg bot ok"><b>Spot on.</b></div><div class="msg bot typing"><i></i><i></i><i></i></div></div>`)}
+${sec("Flip card (click it)", `<div class="flip" style="height:220px" onclick="this.classList.toggle('on')"><div class="inner"><div class="face front"><span class="side">Question</span><div class="cardtext">MCV &gt; 100 fL?</div></div><div class="face back"><span class="side">Answer</span><div class="cardtext"><mark>Macrocytic</mark></div></div></div></div>`)}
+${sec("Stats · Kit.stat", `<div class="stats">${Kit.stat({ label: "Score", value: "8/10" })}${Kit.stat({ label: "Accuracy", value: "80%", icon: "target", color: "#58cc02" })}${Kit.stat({ label: "Streak", value: "5", icon: "flame", color: "#ff9600" })}</div>`)}
+${sec("Rows · Kit.rows", Kit.rows([{ title: "Reticulocyte", text: "Count **rises** after bleeding.", meta: "slide 4" }, { title: "G6PD", text: "**Fava beans** trigger hemolysis.", meta: "slide 14", miss: true }]))}
+${sec("Hero + big icon", `<div class="hero"><div class="ic">${Kit.ic("book-open")}</div><div class="bubble">Ch1 · Hemolysis</div></div><div class="bigicon" style="--c:#ff9600">${Kit.ic("timer")}</div>`)}
+</div>`, { single: true, cls: "" });
+document.querySelector("#app").style.maxWidth = "1140px";
+Kit.feedback({ ok: true, title: "Kit.feedback({ ok: true })", why: "The bar at the bottom: green when right, red when wrong.", label: "Continue" });
+</script>
+</body>
+</html>

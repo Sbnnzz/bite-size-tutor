@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sprint · Bite-Size Kit</title>
+</head>
+<body>
+<script>
+const DATA = {
+  mode: "sprint",
+  lang: "en",
+  chapter: "Hemolysis sprint",
+  seconds: 60,
+  questions: [
+    { type: "tf", prompt: "Intravascular hemolysis lowers serum haptoglobin.", answer: true, why: "Haptoglobin is **consumed** binding free hemoglobin." },
+    { prompt: "Membrane defect in hereditary spherocytosis mostly involves…", options: ["Ankyrin / spectrin", "Glycophorin C", "Band 4.2 only", "Hemoglobin S"], answer: 0, why: "Vertical-interaction proteins (**ankyrin, spectrin, band 3**)." },
+    { type: "gap", prompt: "G6PD deficiency: hemolysis after eating ___ beans.", options: ["fava", "soy", "kidney", "black"], answer: 0, why: "**Fava beans** cause oxidative stress." },
+    { prompt: "Which test confirms increased RBC fragility in spherocytosis?", options: ["Osmotic fragility", "Direct Coombs", "Hb electrophoresis", "Flow CD55"], answer: 0, why: "Spherocytes burst early in **hypotonic** saline." },
+    { type: "tf", prompt: "Reticulocytes are smaller than mature RBCs.", answer: false, why: "They are **larger**, so a high count can raise MCV." },
+    { prompt: "Fragmented RBCs on a smear are called…", options: ["Spherocytes", "Schistocytes", "Target cells", "Sickle cells"], answer: 1, why: "**Schistocytes** suggest microangiopathic hemolysis." }
+  ]
+};
+</script>
+<script src="../bite.js"></script>
+</body>
+</html>

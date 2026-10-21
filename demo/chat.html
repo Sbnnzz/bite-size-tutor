@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Chat · Bite-Size Kit</title>
+</head>
+<body>
+<script>
+const DATA = {
+  mode: "chat",
+  lang: "en",
+  chapter: "TNM staging in 4 texts",
+  beats: [
+    {
+      title: "What TNM is", slide: "slide 10",
+      bubbles: ["TNM is how we describe how far a cancer has gone.", "**T** = the tumor itself, **N** = nearby lymph nodes, **M** = spread to distant organs."],
+      simpler: "Think of it as: how big, how local, how far.",
+      example: "T2 N1 M0 = a medium tumor, some nearby nodes, no distant spread."
+    },
+    {
+      title: "N in TNM", slide: "slide 12",
+      bubbles: ["**Usually**, most carcinomas reach the lymph nodes before the bloodstream.", "Lymph vessels are leaky and low-pressure, so cancer cells slip in more easily. The nodes are the **first checkpoint**."],
+      why: "Lymphatic capillaries have loose junctions and no tight basement membrane, so they are easier to invade than blood capillaries.",
+      q: { type: "tf", prompt: "M describes spread to the regional lymph nodes.", answer: false, why: "Regional nodes are **N**. **M** is distant metastasis." }
+    },
+    {
+      title: "T in TNM", slide: "slide 13",
+      bubbles: ["**T** grades the primary tumor: its size and how deep it has grown into nearby tissue.", "Higher T number = bigger or more invasive tumor."],
+      q: { prompt: "A tumor grows deeper into the surrounding tissue. Which letter changes?", options: ["T", "N", "M", "None"], answer: 0, why: "Size and local invasion are graded by **T**." }
+    },
+    {
+      title: "Putting it together", slide: "slide 15",
+      bubbles: ["Stage groups combine T, N and M into stages I–IV.", "Any **M1** usually means stage IV, no matter how small the tumor is."],
+      q: { type: "order", steps: ["Tumor grows (T)", "Spreads to nodes (N)", "Distant metastasis (M)"], why: "The usual path: **local growth → nodes → distant organs**." }
+    }
+  ]
+};
+</script>
+<script src="../bite.js"></script>
+</body>
+</html>

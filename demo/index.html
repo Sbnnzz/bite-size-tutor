@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bite-Size Kit · demos</title>
+<link rel="stylesheet" href="../kit/kit.css">
+<style>
+.modes{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;width:100%}
+.mode{display:flex;flex-direction:column;gap:10px;text-decoration:none;color:var(--text);border:2px solid var(--line);border-bottom-width:5px;border-radius:20px;padding:20px;transition:transform .1s}
+.mode:hover{transform:translateY(-2px);background:var(--hover)}
+.mode b{font-size:20px;color:var(--strong)}
+.mode code{font-size:12px;color:var(--muted)}
+</style>
+</head>
+<body>
+<script src="../kit/kit.js"></script>
+<script>
+Kit.shell(); Kit.theme.init();
+document.querySelector("#bar").style.visibility = "hidden";
+const modes = [
+  ["lesson", "book-open", "#58cc02", "Lesson", "Material + real image on the left, one exercise on the right (5 types)."],
+  ["chat", "message-circle", "#1cb0f6", "Chat", "Learn by texting: short bubbles, Back / Why / Example / Simpler / Next."],
+  ["cards", "layers", "#ce82ff", "Cards", "Flip flashcards. Again sends a card to the back of the deck."],
+  ["sprint", "timer", "#ff9600", "Sprint", "Timed rapid-fire. The progress bar is the clock."],
+  ["sheet", "file-text", "#ff4b4b", "Sheet", "One-page cheat sheet. Print or save as PDF."],
+  ["components", "shapes", "#4b4b4b", "Components", "Every building block of the kit, live."]
+];
+Kit.view(`<div class="center"><h1 class="big" style="color:var(--strong)">Bite-Size Kit</h1><p class="keys" style="font-size:15px">A tiny study UI kit. Write a DATA object, pick a mode, load bite.js.</p>
+<div class="modes">${modes.map(([id, icon, c, name, d]) => `<a class="mode" href="${id}.html"><div class="bigicon" style="--c:${c};width:56px;height:56px;font-size:28px;border-radius:16px">${Kit.ic(icon)}</div><b>${name}</b><span>${d}</span>${id !== "components" ? `<code>mode: "${id}"</code>` : ""}</a>`).join("")}</div></div>`, { single: true });
+document.querySelector("#app").style.maxWidth = "1000px";
+document.querySelector("#foot").classList.add("hide");
+</script>
+</body>
+</html>

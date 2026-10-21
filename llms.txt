@@ -1,0 +1,75 @@
+# Bite-Size Kit
+
+> A study UI kit. An AI writes only a `DATA` object; the kit renders a polished, interactive page (Duolingo-style) from it.
+> Hosted at https://cdn.jsdelivr.net/gh/Sbnnzz/bite-size-tutor@2/bite.js · source: https://github.com/Sbnnzz/bite-size-tutor
+
+## How to produce a page
+
+Output exactly this HTML, replacing only the DATA object. Do not add CSS, other scripts, or AI/API calls; the kit loads its own font, icons and styles.
+
+```html
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Bite-Size Kit</title></head>
+<body>
+<script>
+const DATA = { mode: "lesson", lang: "en", chapter: "…", units: [] };
+</script>
+<script src="https://cdn.jsdelivr.net/gh/Sbnnzz/bite-size-tutor@2/bite.js"></script>
+</body>
+</html>
+```
+
+## Common fields (all modes)
+
+- `mode`: "lesson" | "chat" | "cards" | "sprint" | "sheet". Default "lesson".
+- `lang`: "en" | "id". Interface language. Write all content in the same language; keep technical terms in their standard form.
+- `chapter`: short title, e.g. "Ch2 · Anemias".
+- Text fields support `**key term**` → highlighted. Use 1–3 per item. No other markup, no emojis, no citation markers like [cite: 3].
+- `slide`: optional source reference shown as a tag, e.g. "slide 7".
+- `img`: optional search term for a REAL photo from Wikimedia Commons, fetched at runtime. 2–4 English words, MAIN SUBJECT FIRST, then the image kind: "reticulocytes supravital stain", "sickle cell smear", "bone marrow biopsy". Use only for things with a real look (cells, smears, tissue, organs, devices, procedures). Never write image URLs.
+
+## Material blocks (lesson units, sheet sections)
+
+Use 1–2 per item, ≤50 words total:
+- `text`: 1–2 short sentences, ≤30 words.
+- `points`: 2–4 bullets, ≤10 words each.
+- `flow`: 3–5 steps, ≤4 words each (processes, pathways, cause → effect).
+- `table`: `{ cols: [..], rows: [[..], ..] }`, ≤4 rows, ≤3 columns, ≤5 words per cell.
+
+## Exercises (`q`, used by lesson, chat, sprint)
+
+Every `q` may have `hint` (≤12 words, does not give the answer away) and `why` (≤20 words, a takeaway; shown in feedback and recaps).
+- Multiple choice (default, no `type`): `prompt`, `options` (exactly 4, ≤6 words), `answer` (index 0–3). Prefer consequence, mini case, or "Which is NOT…".
+- `type: "gap"`: `prompt` = one sentence with `___`, `options` (4 short terms), `answer` (index).
+- `type: "tf"`: `prompt` = one statement, `answer`: true | false. Make about half false.
+- `type: "match"`: `pairs`: 3–4 `[left, right]`, ≤4 words each. Shuffled by the app. One slip still counts as correct.
+- `type: "order"`: `steps`: 3–6 items in the CORRECT order, ≤4 words each. Shuffled by the app.
+Options must be plausible and from the same category. Vary the correct position. For match/order, the material must not show the same pairs/sequence.
+
+## mode: "lesson"
+`units`: 6–12 items `{ title, slide?, img?, text?|points?|flow?|table?, q }`. One unit = one fact or concept. Mix exercise types (about 1 in 3 non-multiple-choice). Recap every 5 units, wrong answers come back at the end, end screen with RESULT text to paste back into the chat.
+
+## mode: "chat"
+`beats`: 4–15 items `{ title, bubbles: [..], slide?, img?, why?, example?, simpler?, q? }`.
+- `bubbles`: 1–3 short texts, 1–2 sentences each, ≤60 words total per beat. One idea per beat; casual, like texting a friend.
+- `why` / `example` / `simpler`: optional extra bubbles behind buttons (mechanism, concrete case, everyday analogy). ≤30 words each.
+- `q`: optional quick check (mcq, tf, gap, match, order). Use on about 1 beat in 3.
+
+## mode: "cards"
+`cards`: `{ front, back, img?, imgSide?: "front" | "back" (default back), slide?, hint? }`. Front = a question or cue (≤15 words), back = the answer with the key term in bold (≤25 words). "Again" sends a card to the back of the deck.
+
+## mode: "sprint"
+`seconds` (default 60), `questions`: 10–30 exercises, best as mcq / tf / gap with short prompts. Tap to answer, it moves on by itself. Missed questions are listed with answers at the end.
+
+## mode: "sheet"
+`subtitle?`, `sections`: 4–12 items `{ title, slide?, img?, text?|points?|flow?|table? }`. High-yield first. Two-column cheat sheet with Print / PDF and Copy as text.
+
+## Accuracy rules for generated content
+- Use only the user's material when it is provided; cite `slide`.
+- Never invent numbers (reference ranges, doses, cut-offs).
+- Simplifications may say "roughly", but must not be wrong.
+
+## For developers
+- `bite.js` loads `kit/kit.css`, `kit/kit.js`, then `modes/<mode>.js`, then calls `Kit.run(DATA)`.
+- New mode: `Kit.mode("name", { start(data) { … } })` in `modes/name.js`. Use `Kit.view`, `Kit.footer`, `Kit.btn`, `Kit.feedback`, `Kit.on` (data-act click actions), `Kit.keys`, `Kit.t` / `Kit.addText`, `Kit.session`, `Kit.ex`, `Kit.endScreen`. See `demo/components.html` and README.md.
