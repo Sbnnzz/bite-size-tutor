@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Deck · Lingua Franca</title>
+</head>
+<body>
+<script>
+/* A made-up pitch showing every deck component. All numbers are invented examples. */
+const fmt = n => "$" + Math.round(n).toLocaleString("en-US");
+function calcInit() {
+  const g = id => document.getElementById(id);
+  const upd = () => {
+    const users = +g("sU").value, price = +g("sP").value;
+    g("vU").textContent = users; g("vP").textContent = "$" + price;
+    const rev = users * price * 12, cost = 18000;
+    g("oR").textContent = fmt(rev); g("oM").textContent = fmt(rev - cost);
+    g("oM").className = rev - cost >= 0 ? "pos" : "neg";
+  };
+  ["sU", "sP"].forEach(id => g(id).oninput = upd); upd();
+}
+const DATA = {
+  mode: "deck",
+  lang: "en",
+  title: "StudyBurst · demo pitch",
+  slides: [
+    { cta: "Start", html: `<div class="screen">
+      <div class="hero"><div class="ic"><i data-lucide="zap"></i></div><div><p class="meta">Demo pitch · invented numbers</p><h1>StudyBurst</h1></div></div>
+      <p class="lead">Turns a 2-hour slide deck into a <mark>20-minute</mark> tap-through lesson.</p>
+      <p class="note">Press Enter or → to move through. P prints every slide to PDF.</p></div>` },
+    { html: `<div class="screen">
+      <span class="label money"><span class="dot"><i data-lucide="coins"></i></span>The ask</span>
+      <h2>Fund the pilot first, scale only after students stay.</h2>
+      <div class="stats">
+        <div class="stat" style="--c:#58cc02"><div class="h">Stage 1 · now</div><div class="v big">$20k</div><div class="d">Pilot with 3 study groups</div></div>
+        <div class="stat" style="--c:#1cb0f6"><div class="h">Stage 2 · after proof</div><div class="v big">$60k</div><div class="d">Only after 40% weekly retention</div></div>
+        <div class="stat" style="--c:#ff9600"><div class="h">Runway</div><div class="v big">9 mo</div><div class="d">At current burn</div></div>
+      </div></div>` },
+    { html: `<div class="screen">
+      <span class="label info"><span class="dot"><i data-lucide="bar-chart-3"></i></span>Why it works</span>
+      <h2>Students remember far more when they answer instead of reread.</h2>
+      <div class="hbars">
+        <div class="hb"><div class="top"><span>Reread the slides</span><span>low</span></div><div class="trk"><i style="width:30%;--c:#ff4b4b"></i></div></div>
+        <div class="hb"><div class="top"><span>Answer a question every minute</span><span>high</span></div><div class="trk"><i style="width:80%;--c:#58cc02"></i></div><div class="sub">Illustration only. Use your own sourced numbers.</div></div>
+      </div></div>` },
+    { answered: { label: "Common question", kind: "tf", prompt: "Students need to read the whole deck first.", options: ["True", "False"], answer: 1, take: "Each burst teaches one idea and tests it right away." } },
+    { html: `<div class="screen">
+      <span class="label money"><span class="dot"><i data-lucide="table"></i></span>Scenarios</span>
+      <h2>Same product, three outcomes.</h2>
+      <table><tr><th></th><th>Cautious</th><th>Base</th><th>Strong</th></tr>
+        <tr><td>Paying users</td><td>200</td><td>800</td><td>2,000</td></tr>
+        <tr><td>Monthly profit</td><td class="neg">−$1,200</td><td class="pos">$2,400</td><td class="pos">$9,600</td></tr></table></div>` },
+    { init: "calcInit", html: `<div class="screen">
+      <span class="label money"><span class="dot"><i data-lucide="sliders-horizontal"></i></span>The model</span>
+      <h2>Change the assumptions.</h2>
+      <div class="grid2">
+        <div><p class="meta">Users <b id="vU"></b></p><input type="range" id="sU" min="100" max="3000" step="100" value="800" style="width:100%;accent-color:var(--green)"></div>
+        <div><p class="meta">Price per month <b id="vP"></b></p><input type="range" id="sP" min="1" max="10" step="1" value="4" style="width:100%;accent-color:var(--green)"></div>
+      </div>
+      <div class="stats" style="grid-template-columns:1fr 1fr">
+        <div class="stat" style="--c:#1cb0f6"><div class="h">Revenue a year</div><div class="v big" id="oR"></div></div>
+        <div class="stat" style="--c:#58cc02"><div class="h">After $18k costs</div><div class="v big"><span id="oM"></span></div></div>
+      </div></div>` },
+    { html: `<div class="screen">
+      <span class="label money"><span class="dot"><i data-lucide="milestone"></i></span>Milestones</span>
+      <h2>Money is released only when a gate is passed.</h2>
+      <div class="stagecard"><div class="t"><b>Stage 1 · months 0–3</b><em>$20k</em></div><p>Pilot with 3 study groups.</p><div class="gate">Gate: 40% of students return weekly</div></div>
+      <div class="stagecard"><div class="t"><b>Stage 2 · months 3–9</b><em>$60k</em></div><p>Open to all faculties.</p><div class="gate">Gate: 800 paying users</div></div></div>` },
+    { cta: "Restart", html: `<div class="screen">
+      <span class="label warn"><span class="dot"><i data-lucide="triangle-alert"></i></span>Risks</span>
+      <h2>What could go wrong.</h2>
+      <div class="rows">
+        <div class="row val"><div><b>Students stop after exams</b><span>Usage is seasonal</span></div><em>−40% in breaks</em></div>
+        <div class="row val"><div><b>AI tools add the same feature</b><span>Our edge is the format, not the model</span></div><em>Competition</em></div>
+      </div></div>` }
+  ]
+};
+</script>
+<script src="../bite.js"></script>
+</body>
+</html>

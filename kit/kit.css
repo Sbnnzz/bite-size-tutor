@@ -201,3 +201,55 @@ main.sheetpage{display:block;max-width:1140px}
 .gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;width:100%}
 .gallery>section{border:2px dashed var(--line);border-radius:20px;padding:18px;display:flex;flex-direction:column;gap:12px}
 .gallery h3{font-size:13px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+/* ===== deck + freestyle components (v2.1) ===== */
+main.deckpage{max-width:960px}
+.deck{width:100%}
+.screen{display:flex;flex-direction:column;gap:20px;max-width:780px;width:100%;margin:0 auto;animation:rise .4s both}
+.screen h1{font-size:44px;font-weight:900;color:var(--strong);line-height:1.1}
+.screen h2{font-size:30px;font-weight:900;color:var(--strong);line-height:1.2}
+.lead{font-size:19px;line-height:1.55}
+.note{font-size:14px;color:var(--muted);line-height:1.5}
+.label.money{color:var(--green-d)}.label.money .dot{background:var(--green)}
+.label.warn{color:var(--orange)}.label.warn .dot{background:var(--orange)}
+.label.quest{color:var(--purple)}.label.quest .dot{background:var(--purple)}
+.label.info{color:var(--selt)}.label.info .dot{background:var(--blue)}
+.stat .d{font-size:14px;line-height:1.45;padding:0 12px 14px;text-align:center;color:var(--text)}
+.stat .v.big{font-size:28px}
+.hbars{display:flex;flex-direction:column;gap:14px}
+.hb{display:flex;flex-direction:column;gap:6px}
+.hb .top{display:flex;justify-content:space-between;gap:12px;font-weight:800;color:var(--strong);font-size:16px}
+.hb .trk{height:26px;background:var(--line);border-radius:10px;overflow:hidden}
+.hb .trk i{display:block;height:100%;border-radius:10px;background:var(--c,var(--blue))}
+.hb .sub{font-size:14px;color:var(--muted);line-height:1.4}
+td.neg{color:var(--bad);font-weight:800}td.pos{color:var(--ok);font-weight:800}
+.row.val{grid-template-columns:1fr auto}
+.row.val em{font-weight:900;font-size:16px;color:var(--bad)}
+.row.val em.pos{color:var(--ok)}
+.stagecard{border:2px solid var(--line);border-bottom-width:4px;border-radius:18px;padding:16px 18px;display:flex;flex-direction:column;gap:6px}
+.stagecard .t{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+.stagecard .t b{font-size:19px;color:var(--strong);font-weight:900}
+.stagecard .t em{font-style:normal;font-weight:900;font-size:19px;color:var(--green-d)}
+.stagecard p{font-size:15px;line-height:1.5}
+.stagecard .gate{font-size:14px;color:var(--selt);font-weight:800}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.printall{display:none}
+@media print{
+  .printall{display:block}
+  #app,header,footer{display:none!important}
+  .pslide{page-break-after:always;break-after:page;padding:28px 36px}
+  .pslide .screen{animation:none;max-width:none}
+  .stat,.stagecard,.choice{break-inside:avoid}
+}
+@media (max-width:760px){.screen h1{font-size:34px}.screen h2{font-size:25px}.grid2,.grid3{grid-template-columns:1fr}}
+/* ===== canvases for posters / flyers / social posts (v2.1) ===== */
+body.canvas-page{background:var(--hover);align-items:center;padding:32px 16px}
+.canvas{background:var(--bg);border:2px solid var(--line);border-radius:8px;overflow:hidden;position:relative;display:flex;flex-direction:column;gap:22px;padding:56px}
+.canvas.a4{width:794px;min-height:1123px}
+.canvas.a3{width:1123px;min-height:1587px;padding:80px}
+.canvas.wide{width:1920px;height:1080px;padding:96px}
+.canvas.square{width:1080px;height:1080px;padding:80px}
+.canvas.story{width:1080px;height:1920px;padding:96px}
+.canvas .display{font-size:64px;font-weight:900;line-height:1.05;color:var(--strong);letter-spacing:-.01em}
+.canvas .kicker{font-size:18px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:var(--green-d)}
+@media print{body.canvas-page{background:#fff;padding:0}.canvas{border:0;border-radius:0}}

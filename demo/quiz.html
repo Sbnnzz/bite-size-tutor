@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Quiz · Lingua Franca</title>
+</head>
+<body>
+<script>
+const DATA = {
+  mode: "quiz",
+  lang: "en",
+  chapter: "Hemolysis · quick quiz",
+  questions: [
+    { prompt: "Which test confirms increased RBC fragility in hereditary spherocytosis?", options: ["Direct Coombs", "Osmotic fragility", "Hb electrophoresis", "Flow cytometry CD55"], answer: 1, hint: "Spherocytes burst early in a certain solution.", why: "Spherocytes burst early in **hypotonic** saline.", slide: "slide 12" },
+    { type: "tf", prompt: "Intravascular hemolysis raises serum haptoglobin.", answer: false, hint: "What does haptoglobin bind?", why: "Haptoglobin is **consumed** binding free hemoglobin, so it **falls**." },
+    { type: "gap", prompt: "G6PD deficiency: hemolysis after eating ___ beans.", options: ["soy", "fava", "kidney", "black"], answer: 1, why: "**Fava beans** cause oxidative stress." },
+    { type: "match", pairs: [["Ankyrin complex", "Vertical link"], ["Junctional complex", "Horizontal link"], ["Spherocytosis", "Vertical defect"]], why: "**Vertical** defects → spherocytes, **horizontal** defects → elliptocytes." },
+    { type: "order", steps: ["G6PD low", "NADPH low", "Glutathione low", "Oxidative hemolysis"], why: "No G6PD → no **NADPH** → no reduced glutathione → oxidants damage the RBC." }
+  ]
+};
+</script>
+<script src="../bite.js"></script>
+</body>
+</html>

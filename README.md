@@ -1,6 +1,21 @@
-# Bite-Size Kit
+# Lingua Franca
 
-A tiny study UI kit with a Duolingo-style feel. Write a `DATA` object, pick a **mode**, load `bite.js`. Done.
+One design language for study and presentation pages: a tiny Duolingo-style UI kit plus a Claude Code plugin that uses it. Write a `DATA` object, pick a **mode**, load `bite.js`. Done.
+
+## Claude Code plugin
+
+```text
+/plugin install lingua-franca --marketplace Sbnnzz/lingua-franca
+```
+
+| Command | Makes |
+|---|---|
+| `/lingua-franca:lesson` | material + image + one exercise per screen, from your slides |
+| `/lingua-franca:quiz` | quiz, flashcards or a timed sprint |
+| `/lingua-franca:ppt` | a click-through slide deck / pitch deck, print to PDF |
+| `/lingua-franca:make` | anything else: poster, flyer, cheat sheet, learn-by-texting, custom pages |
+
+You can also just ask ("make a quiz from this PDF") and Claude picks the right skill. The look is defined in [`DESIGN.md`](DESIGN.md); the data formats in [`llms.txt`](llms.txt).
 
 No build step, no framework, no server: one HTML file works in a browser, in Gemini Canvas, in a Claude artifact, or offline from disk.
 
@@ -11,7 +26,7 @@ No build step, no framework, no server: one HTML file works in a browser, in Gem
 <script>
 const DATA = { mode: "lesson", lang: "en", chapter: "Ch1 · Anemia", units: [ /* ... */ ] };
 </script>
-<script src="https://cdn.jsdelivr.net/gh/Sbnnzz/bite-size-tutor@2/bite.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/Sbnnzz/lingua-franca@2/bite.js"></script>
 </body></html>
 ```
 
@@ -20,6 +35,8 @@ const DATA = { mode: "lesson", lang: "en", chapter: "Ch1 · Anemia", units: [ /*
 | Mode | What it is | Demo |
 |---|---|---|
 | `lesson` | Material + real image on the left, one exercise on the right, CHECK, feedback bar, recap every 5 | `demo/lesson.html` |
+| `quiz` | One exercise per screen without material, untimed, missed ones come back | `demo/quiz.html` |
+| `deck` | Click-through slides: you write free HTML per slide with kit components; navigation, progress, keys and print-to-PDF are built in | `demo/deck.html` |
 | `chat` | Learn by texting: bubbles with a typing indicator, Back / Why? / Example / Simpler / Next, quizzes in the thread | `demo/chat.html` |
 | `cards` | Flip flashcards, Again / Got it, missed cards come back | `demo/cards.html` |
 | `sprint` | Timed rapid-fire, the progress bar is the clock | `demo/sprint.html` |
@@ -67,6 +84,6 @@ Save it as `modes/hello.js` and use `mode: "hello"`. Use `data-act` + `Kit.on` f
 - `@2` → this kit (`bite.js`). Recommended.
 - `@1` → the original single-mode `engine.js` / `engine.css`, kept frozen at tag `v1.0.1` so existing lesson pages keep working.
 
-To ship a change: commit, tag `v2.x.y`, push, then purge `https://purge.jsdelivr.net/gh/Sbnnzz/bite-size-tutor@2/<file>` for each changed file.
+To ship a change: commit, tag `v2.x.y`, push, then purge `https://purge.jsdelivr.net/gh/Sbnnzz/lingua-franca@2/<file>` for each changed file.
 
 Images come from Wikimedia Commons under their own licenses; the credit shown under each image links to its source page. Icons: Lucide (ISC). Font: Nunito (OFL).

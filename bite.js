@@ -9,10 +9,11 @@
   try { data = DATA; } catch (e) { data = window.DATA; }
   if (!data) { document.body.insertAdjacentHTML("beforeend", '<p style="font:16px system-ui;padding:24px">Bite-Size Kit: no DATA found. Define <code>const DATA = {...}</code> before bite.js.</p>'); return; }
   const mode = String(data.mode || "lesson").replace(/[^a-z0-9-]/gi, "");
+  const file = { quiz: "lesson" }[mode] || mode;   // modes that share a file
   const css = document.createElement("link"); css.rel = "stylesheet"; css.href = base + "kit/kit.css"; document.head.appendChild(css);
   const load = src => new Promise((ok, fail) => { const s = document.createElement("script"); s.src = src; s.onload = ok; s.onerror = () => fail(new Error(src)); document.head.appendChild(s); });
   load(base + "kit/kit.js")
-    .then(() => load(base + "modes/" + mode + ".js"))
+    .then(() => load(base + "modes/" + file + ".js"))
     .then(() => Kit.run(data))
     .catch(err => document.body.insertAdjacentHTML("beforeend", `<p style="font:16px system-ui;padding:24px">Bite-Size Kit could not load <b>${mode}</b> (${err.message}). Check your connection or the mode name.</p>`));
 })();

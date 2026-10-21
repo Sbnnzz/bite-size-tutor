@@ -1,12 +1,21 @@
-/* Bite-Size Kit · mode "lesson": material + image on the left, one exercise on the right, CHECK, feedback bar.
- * DATA: { mode: "lesson", lang, chapter, units: [{ title, slide, img?, text?|points?|flow?|table?, q }] }
+/* Bite-Size Kit · modes "lesson" and "quiz".
+ * lesson: material + image on the left, one exercise on the right, CHECK, feedback bar.
+ *   DATA: { mode: "lesson", lang, chapter, units: [{ title, slide, img?, text?|points?|flow?|table?, q }] }
+ * quiz: the same flow without material, one centered exercise per screen, no timer.
+ *   DATA: { mode: "quiz", lang, chapter, questions: [q] }   (each q may also carry slide / img)
+ * A lesson unit with no material and no image is also shown centered.
  */
 (() => {
 const { $, esc, ic } = Kit;
 let D, U, S, mode = "intro";
 const rowOf = i => ({ title: U[i].title, text: U[i].q.why, meta: U[i].slide, miss: S.missed.has(i) });
 
-function start(data) { D = data; U = data.units || []; Kit.keys(key); intro(); }
+const hasMat = u => !!(u.img || u.text || u.points || u.flow || u.table);
+function start(data) {
+  D = data;
+  U = data.units || (data.questions || []).map(q => ({ q, slide: q.slide, title: Kit.plain(q.prompt || "").slice(0, 90) || Kit.t("inst")[Kit.qtype(q)] }));
+  Kit.keys(key); intro();
+}
 
 function intro() {
   mode = "intro"; S = Kit.session(U.map((_, i) => i)); Kit.sync(S);
@@ -27,8 +36,9 @@ function unit() {
   Kit.ex.onReady = on => { const c = $("#check"); if (c) c.disabled = !on; };
   Kit.ex.onDone = checked;
   const body = Kit.ex.render(q);
-  Kit.view(`<section class="learn">${Kit.pic(u.img)}<div class="bubble"><span class="tag">${ic("file-text")} ${esc(u.slide || "")}</span><h2>${esc(u.title)}</h2>${Kit.material(u)}</div></section>` +
-    `<section class="ask">${Kit.tag(S.isRepeat() ? "prev" : "new")}<h1 class="inst">${esc(Kit.t("inst")[t])}</h1>${body}</section>`);
+  const ask = `<section class="ask">${Kit.tag(S.isRepeat() ? "prev" : "new")}<h1 class="inst">${esc(Kit.t("inst")[t])}</h1>${body}</section>`;
+  if (hasMat(u)) Kit.view(`<section class="learn">${Kit.pic(u.img)}<div class="bubble"><span class="tag">${ic("file-text")} ${esc(u.slide || "")}</span><h2>${esc(u.title)}</h2>${Kit.material(u)}</div></section>` + ask);
+  else Kit.view(ask, { single: true });
   Kit.footer(`<div class="left">${Kit.btn(Kit.t("hint"), { act: "hint", tone: "white", icon: "lightbulb", id: "hintbtn" })}</div>${t === "match" ? `<span class="keys">${esc(Kit.t("keys"))}</span>` : Kit.btn(Kit.t("check"), { act: "check", id: "check", disabled: true })}`);
   Kit.sync(S);
 }
@@ -69,4 +79,5 @@ function key(e) {
 
 Kit.on({ next: () => next(), check: () => Kit.ex.check(), hint: () => Kit.ex.hint(), "retry-missed": () => play(S.missedIds()), restart: () => play(U.map((_, i) => i)) });
 Kit.mode("lesson", { start });
+Kit.mode("quiz", { start });
 })();

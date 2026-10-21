@@ -1,0 +1,9 @@
+{
+  "name": "lingua-franca",
+  "version": "2.1.0",
+  "description": "One design language for study and presentation pages: Duolingo-style lessons, quizzes, slide decks, posters and flyers, built on the Lingua Franca UI kit.",
+  "author": { "name": "Sbnnzz" },
+  "homepage": "https://github.com/Sbnnzz/lingua-franca",
+  "repository": "https://github.com/Sbnnzz/lingua-franca",
+  "keywords": ["study", "quiz", "slides", "flashcards", "design-system", "education"]
+}

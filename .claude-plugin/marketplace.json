@@ -1,0 +1,12 @@
+{
+  "name": "lingua-franca",
+  "owner": { "name": "Sbnnzz" },
+  "description": "Lingua Franca: a Duolingo-style design language and UI kit for lessons, quizzes, decks, posters and flyers.",
+  "plugins": [
+    {
+      "name": "lingua-franca",
+      "source": "./",
+      "description": "Duolingo-style lessons, quizzes, slide decks, posters and flyers from one UI kit."
+    }
+  ]
+}

@@ -1,7 +1,8 @@
-# Bite-Size Kit
+# Lingua Franca
 
+> A study and presentation UI kit (formerly Bite-Size Kit). For free-form pages (decks, posters, flyers) also read DESIGN.md.
 > A study UI kit. An AI writes only a `DATA` object; the kit renders a polished, interactive page (Duolingo-style) from it.
-> Hosted at https://cdn.jsdelivr.net/gh/Sbnnzz/bite-size-tutor@2/bite.js · source: https://github.com/Sbnnzz/bite-size-tutor
+> Hosted at https://cdn.jsdelivr.net/gh/Sbnnzz/lingua-franca@2/bite.js · source: https://github.com/Sbnnzz/lingua-franca
 
 ## How to produce a page
 
@@ -15,14 +16,14 @@ Output exactly this HTML, replacing only the DATA object. Do not add CSS, other 
 <script>
 const DATA = { mode: "lesson", lang: "en", chapter: "…", units: [] };
 </script>
-<script src="https://cdn.jsdelivr.net/gh/Sbnnzz/bite-size-tutor@2/bite.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/Sbnnzz/lingua-franca@2/bite.js"></script>
 </body>
 </html>
 ```
 
 ## Common fields (all modes)
 
-- `mode`: "lesson" | "chat" | "cards" | "sprint" | "sheet". Default "lesson".
+- `mode`: "lesson" | "quiz" | "chat" | "cards" | "sprint" | "sheet" | "deck". Default "lesson".
 - `lang`: "en" | "id". Interface language. Write all content in the same language; keep technical terms in their standard form.
 - `chapter`: short title, e.g. "Ch2 · Anemias".
 - Text fields support `**key term**` → highlighted. Use 1–3 per item. No other markup, no emojis, no citation markers like [cite: 3].
@@ -49,6 +50,12 @@ Options must be plausible and from the same category. Vary the correct position.
 
 ## mode: "lesson"
 `units`: 6–12 items `{ title, slide?, img?, text?|points?|flow?|table?, q }`. One unit = one fact or concept. Mix exercise types (about 1 in 3 non-multiple-choice). Recap every 5 units, wrong answers come back at the end, end screen with RESULT text to paste back into the chat.
+
+## mode: "quiz"
+`questions`: 6–15 exercises (any type, mix them). Each may carry `slide` / `img`. One centered exercise per screen, no timer, CHECK, feedback, missed ones come back, end screen with RESULT.
+
+## mode: "deck"
+`title`, `slides`: each `{ html, cta?, init? }` (free HTML built from DESIGN.md components, usually `<div class="screen">…</div>`) or `{ answered: { label?, kind?: "mc"|"tf", prompt, options, answer, take } }`. `init` names a global function you define in your own `<script>` before bite.js; it runs after that slide renders. Arrows/Enter navigate, P prints all slides.
 
 ## mode: "chat"
 `beats`: 4–15 items `{ title, bubbles: [..], slide?, img?, why?, example?, simpler?, q? }`.
