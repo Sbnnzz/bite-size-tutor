@@ -15,7 +15,9 @@ One design language for study and presentation pages: a tiny Duolingo-style UI k
 | `/lingua-franca:ppt` | a click-through slide deck / pitch deck, print to PDF |
 | `/lingua-franca:make` | anything else: poster, flyer, cheat sheet, learn-by-texting, custom pages |
 
-You can also just ask ("make a quiz from this PDF") and Claude picks the right skill. The look is defined in [`DESIGN.md`](DESIGN.md); the data formats in [`llms.txt`](llms.txt).
+You can also just ask ("make a quiz from this PDF") and Claude picks the right skill.
+
+**Standalone skill** (one `/lingua-franca` skill for claude.ai, the Claude desktop chat, Gemini, or `~/.claude/skills/` without the plugin): run `powershell -File standalone\build.ps1` and upload `dist\lingua-franca.zip`. It is built from `standalone/SKILL.md`, `DESIGN.md` and `llms.txt`, so it stays in sync with the kit. The look is defined in [`DESIGN.md`](DESIGN.md); the data formats in [`llms.txt`](llms.txt).
 
 No build step, no framework, no server: one HTML file works in a browser, in Gemini Canvas, in a Claude artifact, or offline from disk.
 
